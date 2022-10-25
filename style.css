@@ -64,8 +64,8 @@ main {
   border-radius: 15px;
   padding: 15px;
   margin: 15px;
-  width: //trying to make width fit max screen width
-  font-size: 40px;//trying to make text fit screen while shrinking
+  width: 1500px;
+  font-size: 40px;
 }
 .currentLocation {
   display: flex;
