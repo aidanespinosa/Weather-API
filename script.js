@@ -2,44 +2,81 @@
 const apiToken = "483e43292560865919d8055658066e71";
 const submitButton = document.querySelector("#submitButton");
 const todayContainer = document.querySelector(".weatherToday");
+const searchHistoryList = []; //whenever push submit button, append item into front of this list, display list
 // var cityName = document.querySelector("#searchInput");
-submitButton.addEventListener("click", function () {
+const convertKelvinToFarenheit = function (kelvin) {
+  const convertedResult = kelvin * 1.8 - 459.67;
+  console.log(convertedResult);
+  return Math.round(convertedResult);
+};
+
+submitButton.addEventListener("click", function (event) {
+  event.preventDefault();
   let cityName = document.querySelector("#searchInput").value;
   locationData(cityName);
 });
 
 const locationData = function (cityName) {
   fetch(
-    `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit={limit}&appid=${apiToken}`
+    `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiToken}`
   )
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
-      getWeather(data.lat, data.lon);
-      lat = data.lat;
-      lon = data.lon;
+      const firstObject = data[0];
+      lon = firstObject.lon;
+      lat = firstObject.lat;
       console.log(lat);
       console.log(lon);
+      getWeather(lat, lon);
     });
 };
 
 const getWeather = function (lat, lon) {
   fetch(
-    `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely,alerts&appid=${apiToken}`
+    `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely,alerts&units=standard&appid=${apiToken}`
   )
     .then((response) => response.json())
     .then((data) => {
-      console.log(data.daily);
+      console.log("daily", data, data.daily);
+
+      const setWeatherInfo = function (
+        { temp, wind_speed, humidity },
+        selector
+      ) {
+        let tempSelector = `${selector} .temp`;
+        let windSelector = `${selector} .wind`;
+        let humSelector = `${selector} .humidity`;
+        let tempElement = document.querySelector(tempSelector);
+        let windElement = document.querySelector(windSelector);
+        let humElement = document.querySelector(humSelector);
+        tempElement.textContent =
+          "Temperature: " + convertKelvinToFarenheit(temp) + "℉";
+        windElement.textContent = "Wind: " + wind_speed + "mph";
+        humElement.textContent = "Humidity: " + humidity + "%";
+      };
+      setWeatherInfo(
+        {
+          temp: data.current.temp,
+          wind_speed: data.current.wind_speed,
+          humidity: data.current.humidity,
+        },
+        "*[data-today]"
+      );
+
       for (let i = 0; i <= data.daily.length; i++) {
-        let dailyIndex = `*[data-index="${i}"] .temp`;
-        let day = document.querySelector(dailyIndex);
-        day.textContent = data.daily[i].temp.day;
-        console.log(day);
-        console.log(data.daily[i]);
+        setWeatherInfo(
+          {
+            temp: data.daily[i].temp.day,
+            wind_speed: data.daily[i].wind_speed,
+            humidity: data.daily[i].humidity,
+          },
+          `*[data-index="${i}"]`
+        );
       }
     });
 };
 //remove before submitting
-getWeather(32.741947, -117.239571);
+// getWeather(32.741947, -117.239571);
 
 //make a for loop that matches data index of day with data index of weather forecast
