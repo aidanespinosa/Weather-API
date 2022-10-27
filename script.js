@@ -9,6 +9,7 @@ let searchHistoryList = []; //whenever push submit button, append #searchInput t
 
 submitButton.addEventListener("click", function (event) {
   event.preventDefault();
+  searchHistory.innerHTML = "";
   let cityName = document.querySelector("#searchInput").value;
   locationData(cityName);
   searchHistoryList.unshift(cityName);
@@ -17,7 +18,7 @@ submitButton.addEventListener("click", function (event) {
     searchHistoryList.pop(searchHistoryList[5]);
   }
 
-  // for (let i = 0; i <= searchHistoryList.length; i++)
+  // for (let i = 0; i <= searchHistoryList.length; i++){
   searchHistoryList.forEach((cityName) => {
     let list = document.createElement("li");
     list.textContent = cityName;
