@@ -2,19 +2,36 @@
 const apiToken = "483e43292560865919d8055658066e71";
 const submitButton = document.querySelector("#submitButton");
 const todayContainer = document.querySelector(".weatherToday");
-const searchHistoryList = []; //whenever push submit button, append item into front of this list, display list
-// var cityName = document.querySelector("#searchInput");
-const convertKelvinToFarenheit = function (kelvin) {
-  const convertedResult = kelvin * 1.8 - 459.67;
-  console.log(convertedResult);
-  return Math.round(convertedResult);
-};
+let cityName = document.querySelector("#searchInput").value;
+const searchHistory = document.querySelector("#searchHistory");
+let searchHistoryList = []; //whenever push submit button, append #searchInput textContent into front of this list, display list
+//pop out back item of array, only show first five items in array
 
 submitButton.addEventListener("click", function (event) {
   event.preventDefault();
   let cityName = document.querySelector("#searchInput").value;
   locationData(cityName);
+  searchHistoryList.unshift(cityName);
+
+  if (searchHistoryList.length > 5) {
+    searchHistoryList.pop(searchHistoryList[5]);
+  }
+
+  // for (let i = 0; i <= searchHistoryList.length; i++)
+  searchHistoryList.forEach((cityName) => {
+    let list = document.createElement("li");
+    list.textContent = cityName;
+    searchHistory.appendChild(list);
+  });
 });
+
+// searchHistory.textContent = searchHistoryList; //adding list to text content
+
+const convertKelvinToFarenheit = function (kelvin) {
+  const convertedResult = kelvin * 1.8 - 459.67;
+  console.log(convertedResult);
+  return Math.round(convertedResult);
+};
 
 const locationData = function (cityName) {
   fetch(
