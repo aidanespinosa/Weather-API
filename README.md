@@ -1,2 +1,4 @@
 # Weather-API
-For when to want temp when move from place to different place.
+The one stop shop to see current weather conditons around the globe.
+## Forecast
+See up to five days of weather conditions yet to happen.
