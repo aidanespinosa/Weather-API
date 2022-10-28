@@ -9,13 +9,7 @@ const todaysDate = document.querySelector(".time");
 let searchHistoryList = []; //whenever push submit button, append #searchInput textContent into front of this list, display list
 //pop out back item of array, only show first five items in array
 
-// todaysDate.textContent = DateTime.now().toFormat("MMMM dd, yyyy");
-// DateTime.now().toFormat("MMMM dd, yyyy");
-
-// const forecastDate = function () {
-//   for (let i = 0; i <= day.data.length; i++) {}
-// };
-
+//When click submit button, text content of daily forecast boxes are set according to api data
 submitButton.addEventListener("click", function (event) {
   event.preventDefault();
   searchHistory.innerHTML = "";
@@ -28,22 +22,19 @@ submitButton.addEventListener("click", function (event) {
     searchHistoryList.pop(searchHistoryList[5]);
   }
 
-  // for (let i = 0; i <= searchHistoryList.length; i++){
   searchHistoryList.forEach((cityName) => {
     let list = document.createElement("li");
     list.textContent = cityName;
     searchHistory.appendChild(list);
   });
 });
-
-// searchHistory.textContent = searchHistoryList; //adding list to text content
-
+//convert kelvin to farenheit function
 const convertKelvinToFarenheit = function (kelvin) {
   const convertedResult = kelvin * 1.8 - 459.67;
   console.log(convertedResult);
   return Math.round(convertedResult);
 };
-
+//convert unix timestamp to day/ month tear format
 function convertTimestamp(timestamp) {
   var d = new Date(timestamp * 1000), // Convert the passed timestamp to milliseconds
     year = d.getFullYear(),
@@ -52,16 +43,7 @@ function convertTimestamp(timestamp) {
     date = day + "/" + month + "/" + year;
   return date;
 }
-
-// const convertTimeStamp = function (timeStamp) {
-//   let d = new Date(timeStamp * 1000);
-//   let day = date.getDay(timeStamp);
-//   let month = date.getMonth(timeStamp);
-//   let year = date.getFullYear(timeStamp);
-//   let dateFormat = day + "/" + month + "/" + year;
-//   return dateFormat;
-// };
-
+//call geocode api which provides latitude and longitude of city name for weather api to use
 const locationData = function (cityName) {
   fetch(
     `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiToken}`
@@ -77,10 +59,11 @@ const locationData = function (cityName) {
       getWeather(lat, lon);
     });
 };
-
+//Review with Mathias
+//setting weather data into the html through the dom
 const getWeather = function (lat, lon) {
   const setWeatherInfo = function (
-    { temp, wind_speed, humidity, dt }, //added dt
+    { temp, wind_speed, humidity, dt },
     selector
   ) {
     let timeSelector = `${selector} .time`;
@@ -97,8 +80,10 @@ const getWeather = function (lat, lon) {
     windElement.textContent = "Wind: " + wind_speed + "mph";
     humElement.textContent = "Humidity: " + humidity + "%";
   };
+
+  //set weather conditions in local storage to optimize search speed, if no new information
+  //pull data from local storage
   if (localStorage.getItem("date")) {
-    //set five day forecast in if statement
     setWeatherInfo(
       {
         temp: localStorage.getItem("temp"),
@@ -108,6 +93,7 @@ const getWeather = function (lat, lon) {
       },
       "*[data-today]"
     );
+    //if no local storage perisists in cache, make fetch call to api for fresh data
   } else {
     fetch(
       `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely,alerts&units=standard&appid=${apiToken}`
@@ -119,7 +105,7 @@ const getWeather = function (lat, lon) {
         localStorage.setItem("temp", data.current.temp);
         localStorage.setItem("wind", data.current.wind_speed);
         localStorage.setItem("humidity", data.current.humidity);
-
+        //pull current weather for the day from api
         setWeatherInfo(
           {
             dt: data.current.dt,
@@ -129,7 +115,7 @@ const getWeather = function (lat, lon) {
           },
           "*[data-today]"
         );
-
+        //pull data for 5 day forecast from api
         for (let i = 0; i <= data.daily.length; i++) {
           setWeatherInfo(
             {
@@ -144,7 +130,3 @@ const getWeather = function (lat, lon) {
       });
   }
 };
-//remove before submitting
-// getWeather(32.741947, -117.239571);
-
-//make a for loop that matches data index of day with data index of weather forecast
