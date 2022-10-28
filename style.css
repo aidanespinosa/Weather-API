@@ -41,6 +41,7 @@ main {
 
 #searchInput {
   margin: 5px;
+  width: 100px;
 }
 #submitButton {
   color: black;
@@ -66,6 +67,7 @@ main {
   margin: 15px;
   width: 1500px;
   font-size: 40px;
+  text-size-adjust: inherit;
 }
 .currentLocation {
   display: flex;
@@ -98,6 +100,7 @@ main {
   .row1 {
     flex-direction: column;
   }
+
   @media screen and (max-width: 480px) {
     .forecast {
       flex-direction: column;
@@ -116,5 +119,14 @@ main {
   .weatherToday {
     flex-grow: 1;
     width: auto;
+  }
+  div.temp {
+    font-size: 20px;
+  }
+  div.wind {
+    font-size: 20px;
+  }
+  div.humidity {
+    font-size: 20px;
   }
 }

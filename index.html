@@ -6,6 +6,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" href="./style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.4/build/global/luxon.min.js"></script>
   </head>
   <body>
     <header class="header">
@@ -25,6 +26,7 @@
         <section class="weatherToday">
           <h1 class="currentLocation" type="text">Holder</h1>
           <div class="today" data-today>
+            <div class="time" type="text"></div> <!---added div and time class-->
             <div class="temp" type="text">Temperature:</div>
             <div class="wind" type="text">Wind:</div>
             <div class="humidity" type="text">Humidity:</div>
@@ -33,26 +35,31 @@
       </section>
         <section class="forecast">
           <div class="day" data-index="0">
+            <div class="time" type="text"></div> <!---added time class and div--> 
             <div class="temp" type="text">Temperature:</div>
             <div class="wind" type="text">Wind:</div>
             <div class="humidity" type="text">Humidity:</div>
           </div>
           <div class="day" data-index="1">
+            <div class="time" type="text"></div>
             <div class="temp" type="text">Temperature:</div>
             <div class="wind" type="text">Wind:</div>
             <div class="humidity" type="text">Humidity:</div>
           </div>
           <div class="day" data-index="2">
+            <div class="time" type="text"></div>
             <div class="temp" type="text">Temperature:</div>
             <div class="wind" type="text">Wind:</div>
             <div class="humidity" type="text">Humidity:</div>
           </div>
           <div class="day" data-index="3">
+            <div class="time" type="text"></div>
             <div class="temp" type="text">Temperature:</div>
             <div class="wind" type="text">Wind:</div>
             <div class="humidity" type="text">Humidity:</div>
           </div>
           <div class="day" data-index="4">
+            <div class="time" type="text"></div>
             <div class="temp" type="text">Temperature:</div>
             <div class="wind" type="text">Wind:</div>
             <div class="humidity" type="text">Humidity:</div>
@@ -61,6 +68,7 @@
       </section>
     </main>
   </body>
+  <!-- <script src="luxon.min.js"></script> -->
   <script src="./script.js"></script>
   <script src="./apitoken.js"></script>
 </html>
