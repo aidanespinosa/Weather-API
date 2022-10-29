@@ -46,7 +46,7 @@ function convertTimestamp(timestamp) {
 //call geocode api which provides latitude and longitude of city name for weather api to use
 const locationData = function (cityName) {
   fetch(
-    `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiToken}`
+    `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiToken}`
   )
     .then((response) => response.json())
     .then((data) => {
