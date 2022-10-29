@@ -1,6 +1,6 @@
 // "use strict";
 const apiToken = "483e43292560865919d8055658066e71";
-let DateTime = luxon.DateTime;
+
 const submitButton = document.querySelector("#submitButton");
 const todayContainer = document.querySelector(".weatherToday");
 let cityName = document.querySelector("#searchInput").value;
